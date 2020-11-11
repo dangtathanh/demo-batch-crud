@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.BatchCRUD", "src\NetCore.BatchCRUD\NetCore.BatchCRUD.csproj", "{07140BFD-D356-4FCB-A9EA-0EC189E0AC8A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07140BFD-D356-4FCB-A9EA-0EC189E0AC8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07140BFD-D356-4FCB-A9EA-0EC189E0AC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07140BFD-D356-4FCB-A9EA-0EC189E0AC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07140BFD-D356-4FCB-A9EA-0EC189E0AC8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D116CFF8-61E3-4E7D-BE16-342E7D75DDEC}
+	EndGlobalSection
+EndGlobal
