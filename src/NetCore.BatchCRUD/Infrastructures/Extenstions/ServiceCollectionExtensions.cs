@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetCore.BatchCRUD.Infrastructures.Contexts;
+using NetCore.BatchCRUD.Infrastructures.Repositories;
+using NetCore.BatchCRUD.Services;
 
 namespace NetCore.BatchCRUD.Infrastructures.Extenstions
 {
@@ -20,8 +22,12 @@ namespace NetCore.BatchCRUD.Infrastructures.Extenstions
                 ServiceLifetime.Singleton);
 
             // Repositories
+            services.AddTransient<IBookCreationRepository, BookCreationRepository>();
+            services.AddTransient<IBookUpdateRepository, BookUpdateRepository>();
 
             // Services
+            services.AddTransient<IBookCreationService, BookCreationService>();
+            services.AddTransient<IBookUpdateService, BookUpdateService>();
 
 
             return services;

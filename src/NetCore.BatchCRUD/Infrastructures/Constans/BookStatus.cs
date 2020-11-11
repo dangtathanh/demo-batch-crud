@@ -2,8 +2,8 @@
 {
     public enum BookStatus
     {
-        New,
-        Old,
-        Damaging
+        New = 0,
+        Old = 1,
+        Damaging = 2
     }
 }

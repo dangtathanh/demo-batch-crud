@@ -6,6 +6,12 @@ namespace NetCore.BatchCRUD.Infrastructures.Contexts
     public class BookContext : DbContext
     {
         public DbSet<Book> Books { get; set; }
+
+        public BookContext()
+        {
+
+        }
+
         public BookContext(DbContextOptions<BookContext> options) : base(options)
         {
         }

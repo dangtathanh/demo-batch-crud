@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetCore.BatchCRUD.Infrastructures.Contexts;
 using NetCore.BatchCRUD.Infrastructures.Extenstions;
+using NetCore.BatchCRUD.Services;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -27,7 +28,11 @@ namespace NetCore.BatchCRUD
                 // Setup country selection
                 while (true)
                 {
-
+                    var _batchSize = 1000000;
+                    _logger.LogInformation($"Start creating {_batchSize} books...");
+                    var _bookCreation = _serviceProvider.GetService<IBookCreationService>();
+                    await _bookCreation.CreateManyAsync(_batchSize);
+                    _logger.LogInformation($"{_batchSize} books created completely!");
                 }
             }
             catch (Exception ex)
@@ -48,12 +53,12 @@ namespace NetCore.BatchCRUD
             var logTemplate = "[{Timestamp:yyyyMMdd-HH:mm:ss} {Level:u3}] {Message:lj}{Data:lj}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
                                 .MinimumLevel.Information()
-                                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Warning)
+                                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Information)
                                 .WriteTo.Console(outputTemplate: logTemplate)
                                 .CreateLogger();
 
             var services = new ServiceCollection();
-
+            ConfigureConfigurations();
             services.AddSingleton(_configuration);
 
             // Logger
