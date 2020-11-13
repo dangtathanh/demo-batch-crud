@@ -16,9 +16,21 @@ namespace NetCore.BatchCRUD.Infrastructures.Repositories
         {
         }
 
-        public async Task<int> UpdateManyAsync(DateTime updateDate, BookStatus status)
+        public async Task<int> UpdateManyAsync(DateTime updateDate, Status fromStatus, Status toStatus)
         {
-            var result = await _context.Books.Where(x => x.UpdatedOn > updateDate).UpdateAsync(x => new Book { Status = (int)status });
+            //var result = await _context.Books.Join(_context.BookStatuses,
+            //                                        x => x.Status,
+            //                                        y => y.Id,
+            //                                        (x, y) => x)
+            //                            .Where(x => x.UpdatedOn > updateDate && x.Status == (int)fromStatus)
+            //                            .UpdateAsync(x => new Book { Status = (int)toStatus });
+
+            var result = await (from b in _context.Books 
+                                join bs in _context.BookStatuses on b.Status equals bs.Id
+                                where b.UpdatedOn > updateDate
+                                    && bs.Id == (int)fromStatus
+                                select b).UpdateAsync(x => new Book { Status = (int)toStatus });
+
             return result;
         }
     }

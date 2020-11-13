@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using NetCore.BatchCRUD.Infrastructures.Constans;
 using NetCore.BatchCRUD.Infrastructures.Repositories;
 using System;
 using System.Threading.Tasks;
@@ -14,9 +15,11 @@ namespace NetCore.BatchCRUD.Services
             _bookUpdateRepository = bookUpdateRepository;
         }
 
-        public async Task UpdateManyAsync(DateTime beforeDate)
+        public async Task UpdateManyAsync(DateTime beforeDate, Status fromStatus, Status toStatus)
         {
-            await _bookUpdateRepository.UpdateManyAsync(beforeDate, Infrastructures.Constans.BookStatus.Damaging);
+            _logger.LogInformation($"Start updating records which UpdatedOn less than '{beforeDate.ToString("yyyy-MM-dd")}' from status '{fromStatus}' to status '{toStatus}'...");
+            var affected = await _bookUpdateRepository.UpdateManyAsync(beforeDate, fromStatus, toStatus);
+            _logger.LogInformation($"{affected} records were updated!");
         }
     }
 }

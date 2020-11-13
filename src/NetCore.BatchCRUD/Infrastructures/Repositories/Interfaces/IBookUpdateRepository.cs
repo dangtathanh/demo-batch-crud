@@ -6,6 +6,6 @@ namespace NetCore.BatchCRUD.Infrastructures.Repositories
 {
     public interface IBookUpdateRepository
     {
-        Task<int> UpdateManyAsync(DateTime updateDate, BookStatus status);
+        Task<int> UpdateManyAsync(DateTime updateDate, Status fromStatus, Status toStatus);
     }
 }

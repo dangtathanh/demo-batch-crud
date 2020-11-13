@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetCore.BatchCRUD.Infrastructures.Contexts;
 using NetCore.BatchCRUD.Infrastructures.Extenstions;
-using NetCore.BatchCRUD.Services;
+using NetCore.BatchCRUD.Menus;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -13,7 +13,6 @@ namespace NetCore.BatchCRUD
 {
     class Program
     {
-        private static string _env { get; set; }
         private static IConfiguration _configuration { get; set; }
         private static IServiceProvider _serviceProvider { set; get; }
         private static ILogger<Program> _logger { set; get; }
@@ -28,11 +27,8 @@ namespace NetCore.BatchCRUD
                 // Setup country selection
                 while (true)
                 {
-                    var _batchSize = 1000000;
-                    _logger.LogInformation($"Start creating {_batchSize} books...");
-                    var _bookCreation = _serviceProvider.GetService<IBookCreationService>();
-                    await _bookCreation.CreateManyAsync(_batchSize);
-                    _logger.LogInformation($"{_batchSize} books created completely!");
+                    var _menu = _serviceProvider.GetService<MainMenu>();
+                    await _menu.ShowOptionsAndExecuteAsync();
                 }
             }
             catch (Exception ex)
@@ -53,7 +49,7 @@ namespace NetCore.BatchCRUD
             var logTemplate = "[{Timestamp:yyyyMMdd-HH:mm:ss} {Level:u3}] {Message:lj}{Data:lj}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
                                 .MinimumLevel.Information()
-                                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Information)
+                                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Verbose)
                                 .WriteTo.Console(outputTemplate: logTemplate)
                                 .CreateLogger();
 
@@ -64,6 +60,10 @@ namespace NetCore.BatchCRUD
             // Logger
             services.AddLogging(configure => configure.AddSerilog());
 
+            // Menu
+            services.AddSingleton<MainMenu>();
+
+            // Infrastructures & Services
             services.InjectBaseDataRequires(_configuration);
 
             _serviceProvider = services.BuildServiceProvider(true);
